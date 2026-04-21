@@ -1,0 +1,33 @@
+<section class="toolbar">
+  <div>
+    <p class="eyebrow">My Account</p>
+    <h1>{{ username }}'s posts</h1>
+  </div>
+  <a routerLink="/posts/new" class="btn btn-primary">Create post</a>
+</section>
+
+@if (errorMessage) {
+  <p class="feedback error">{{ errorMessage }}</p>
+}
+
+<section class="items-grid">
+  @for (item of items; track item.id) {
+    <article class="panel item-card">
+      <div class="item-header">
+        <span class="pill">{{ item.item_type }}</span>
+        <span class="pill neutral">{{ item.status }}</span>
+      </div>
+      <h2>{{ item.title }}</h2>
+      <p>{{ item.category_name }} • {{ item.location }}</p>
+      <div class="action-row">
+        <a [routerLink]="['/posts', item.id]" class="btn btn-secondary">Details</a>
+        <a [routerLink]="['/posts', item.id, 'edit']" class="btn btn-primary">Edit</a>
+      </div>
+    </article>
+  } @empty {
+    <article class="panel empty-state">
+      <h2>No posts yet</h2>
+      <p>Create your first lost or found post and it will appear here.</p>
+    </article>
+  }
+</section>

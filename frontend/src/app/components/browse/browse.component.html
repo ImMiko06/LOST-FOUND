@@ -1,0 +1,66 @@
+<section class="toolbar">
+  <div>
+    <p class="eyebrow">Browse Board</p>
+    <h1>Search lost and found posts</h1>
+  </div>
+  <a routerLink="/posts/new" class="btn btn-primary">Add New Post</a>
+</section>
+
+<section class="panel filters">
+  <label>
+    Search by title
+    <input [(ngModel)]="search" name="search" type="text" placeholder="Laptop, wallet, ID card..." />
+  </label>
+
+  <label>
+    Category
+    <select [(ngModel)]="selectedCategory" name="category">
+      <option value="">All categories</option>
+      @for (category of categories; track category.id) {
+        <option [value]="category.id">{{ category.name }}</option>
+      }
+    </select>
+  </label>
+
+  <label>
+    Type
+    <select [(ngModel)]="selectedType" name="itemType">
+      <option value="">All posts</option>
+      <option value="lost">Lost</option>
+      <option value="found">Found</option>
+    </select>
+  </label>
+
+  <div class="filter-actions">
+    <button type="button" class="btn btn-primary" (click)="applyFilters()">Search</button>
+    <button type="button" class="btn btn-secondary" (click)="clearFilters()">Reset</button>
+  </div>
+</section>
+
+@if (errorMessage) {
+  <p class="feedback error">{{ errorMessage }}</p>
+}
+
+@if (loading) {
+  <p class="feedback">Loading items...</p>
+} @else {
+  <section class="items-grid">
+    @for (item of items; track item.id) {
+      <article class="panel item-card">
+        <div class="item-header">
+          <span class="pill">{{ item.item_type }}</span>
+          <span class="pill neutral">{{ item.status }}</span>
+        </div>
+        <h2>{{ item.title }}</h2>
+        <p class="meta">{{ item.category_name }} • {{ item.location }}</p>
+        <p class="description">{{ item.description }}</p>
+        <a [routerLink]="['/posts', item.id]" class="card-link">Open details</a>
+      </article>
+    } @empty {
+      <article class="panel empty-state">
+        <h2>No items found</h2>
+        <p>Try another title, category, or post a new item yourself.</p>
+      </article>
+    }
+  </section>
+}

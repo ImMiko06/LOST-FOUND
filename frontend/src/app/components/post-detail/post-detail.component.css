@@ -1,0 +1,111 @@
+.detail-page {
+  display: grid;
+  gap: 24px;
+  max-width: 1100px;
+  margin: 0 auto;
+}
+
+.detail-header,
+.detail-actions {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.detail-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: start;
+  gap: 16px;
+}
+
+.meta,
+.description,
+.detail-section p,
+.claim-card p {
+  color: #475569;
+}
+
+.description {
+  margin: 0;
+  font-size: 1.05rem;
+  line-height: 1.7;
+}
+
+.image-frame {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  border-radius: 24px;
+  min-height: 420px;
+  padding: 20px;
+  background:
+    linear-gradient(180deg, #f8fafc 0%, #eef4f8 100%);
+  border: 1px solid rgba(15, 23, 42, 0.08);
+}
+
+.detail-image {
+  width: 100%;
+  height: 100%;
+  max-height: 520px;
+  display: block;
+  object-fit: contain;
+  object-position: center;
+  border-radius: 18px;
+}
+
+.detail-section,
+.claims-list,
+.claim-section {
+  display: grid;
+  gap: 16px;
+}
+
+.detail-section h2 {
+  margin: 0;
+}
+
+.detail-section p {
+  margin: 0;
+}
+
+.claim-section label {
+  display: grid;
+  gap: 8px;
+}
+
+.claim-card {
+  display: grid;
+  gap: 8px;
+  padding: 18px 0 0;
+  border-top: 1px solid rgba(15, 23, 42, 0.08);
+}
+
+.detail-actions {
+  padding-top: 12px;
+  border-top: 1px solid rgba(15, 23, 42, 0.08);
+}
+
+.detail-actions .btn {
+  min-width: 160px;
+}
+
+@media (max-width: 720px) {
+  .detail-page {
+    gap: 20px;
+  }
+
+  .detail-image {
+    max-height: 320px;
+  }
+
+  .image-frame {
+    min-height: 260px;
+    padding: 14px;
+  }
+
+  .detail-actions .btn {
+    width: 100%;
+  }
+}

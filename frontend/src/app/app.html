@@ -1,0 +1,29 @@
+<main class="app-shell">
+  <header class="topbar">
+    <a routerLink="/" class="brand">
+      <span class="brand-text">LOST&FOUND</span>
+      <img src="kbtu_logo.jpg" alt="KBTU logo" class="brand-logo" />
+    </a>
+
+    <nav class="nav-links">
+      <a routerLink="/" routerLinkActive="active-link" [routerLinkActiveOptions]="{ exact: true }">Home</a>
+      <a routerLink="/browse" routerLinkActive="active-link">Browse</a>
+      <a routerLink="/my-posts" routerLinkActive="active-link">My Posts</a>
+      <a routerLink="/posts/new" routerLinkActive="active-link">I Found Something</a>
+    </nav>
+
+    <div class="account-box">
+      @if (currentUser; as user) {
+        <span class="username">{{ user.username }}</span>
+        <button type="button" class="btn btn-secondary" (click)="logout()">Logout</button>
+      } @else {
+        <a routerLink="/login" class="btn btn-secondary">Login</a>
+        <a routerLink="/register" class="btn btn-primary">Register</a>
+      }
+    </div>
+  </header>
+
+  <section class="page-content">
+    <router-outlet />
+  </section>
+</main>

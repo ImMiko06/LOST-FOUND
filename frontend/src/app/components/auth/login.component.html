@@ -1,0 +1,32 @@
+<section class="auth-shell panel">
+  <div>
+    <p class="eyebrow">Welcome Back</p>
+    <h1>Log in to manage your posts</h1>
+    <p class="subtext">Use your account to publish items, claim belongings, and open My Posts.</p>
+  </div>
+
+  <form class="auth-form" (ngSubmit)="submit()">
+    <label>
+      Username
+      <input [(ngModel)]="username" name="username" type="text" required />
+    </label>
+
+    <label>
+      Password
+      <input [(ngModel)]="password" name="password" type="password" required />
+    </label>
+
+    @if (errorMessage) {
+      <p class="feedback error">{{ errorMessage }}</p>
+    }
+
+    <button class="btn btn-primary" type="submit" [disabled]="loading">
+      {{ loading ? 'Signing in...' : 'Login' }}
+    </button>
+  </form>
+
+  <p class="auth-switch">
+    No account yet?
+    <a routerLink="/register">Create one</a>
+  </p>
+</section>

@@ -1,0 +1,150 @@
+{
+  "info": {
+    "_postman_id": "5b5840f8-ef18-4f79-8da9-09a313d7e944",
+    "name": "LOST&FOUND KBTU API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Register",
+      "request": {
+        "method": "POST",
+        "header": [{ "key": "Content-Type", "value": "application/json" }],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"username\": \"student1\",\n  \"password\": \"12345678\"\n}"
+        },
+        "url": {
+          "raw": "{{baseUrl}}/register/",
+          "host": ["{{baseUrl}}"],
+          "path": ["register", ""]
+        }
+      }
+    },
+    {
+      "name": "Login",
+      "request": {
+        "method": "POST",
+        "header": [{ "key": "Content-Type", "value": "application/json" }],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"username\": \"student1\",\n  \"password\": \"12345678\"\n}"
+        },
+        "url": {
+          "raw": "{{baseUrl}}/login/",
+          "host": ["{{baseUrl}}"],
+          "path": ["login", ""]
+        }
+      }
+    },
+    {
+      "name": "Get Categories",
+      "request": {
+        "method": "GET",
+        "url": {
+          "raw": "{{baseUrl}}/categories/",
+          "host": ["{{baseUrl}}"],
+          "path": ["categories", ""]
+        }
+      }
+    },
+    {
+      "name": "Create Item",
+      "request": {
+        "method": "POST",
+        "header": [
+          { "key": "Content-Type", "value": "application/json" },
+          { "key": "Authorization", "value": "Bearer {{accessToken}}" }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"title\": \"Blue student ID\",\n  \"description\": \"Found near the main library entrance.\",\n  \"item_type\": \"found\",\n  \"location\": \"Main Library\",\n  \"event_date\": \"2026-04-21\",\n  \"image_url\": \"https://images.unsplash.com/photo-1516321318423-f06f85e504b3\",\n  \"contact_info\": \"Telegram: @student1\",\n  \"status\": \"active\",\n  \"category\": 4\n}"
+        },
+        "url": {
+          "raw": "{{baseUrl}}/items/",
+          "host": ["{{baseUrl}}"],
+          "path": ["items", ""]
+        }
+      }
+    },
+    {
+      "name": "Browse Items",
+      "request": {
+        "method": "GET",
+        "url": {
+          "raw": "{{baseUrl}}/items/search/?q=id&category=4",
+          "host": ["{{baseUrl}}"],
+          "path": ["items", "search", ""],
+          "query": [
+            { "key": "q", "value": "id" },
+            { "key": "category", "value": "4" }
+          ]
+        }
+      }
+    },
+    {
+      "name": "My Items",
+      "request": {
+        "method": "GET",
+        "header": [{ "key": "Authorization", "value": "Bearer {{accessToken}}" }],
+        "url": {
+          "raw": "{{baseUrl}}/my-items/",
+          "host": ["{{baseUrl}}"],
+          "path": ["my-items", ""]
+        }
+      }
+    },
+    {
+      "name": "Create Claim",
+      "request": {
+        "method": "POST",
+        "header": [
+          { "key": "Content-Type", "value": "application/json" },
+          { "key": "Authorization", "value": "Bearer {{accessToken}}" }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"item\": 1,\n  \"message\": \"It has a small KBTU sticker on the back.\",\n  \"contact_info\": \"WhatsApp: +7 700 000 0000\"\n}"
+        },
+        "url": {
+          "raw": "{{baseUrl}}/claims/",
+          "host": ["{{baseUrl}}"],
+          "path": ["claims", ""]
+        }
+      }
+    },
+    {
+      "name": "Logout",
+      "request": {
+        "method": "POST",
+        "header": [
+          { "key": "Content-Type", "value": "application/json" },
+          { "key": "Authorization", "value": "Bearer {{accessToken}}" }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"refresh\": \"{{refreshToken}}\"\n}"
+        },
+        "url": {
+          "raw": "{{baseUrl}}/logout/",
+          "host": ["{{baseUrl}}"],
+          "path": ["logout", ""]
+        }
+      }
+    }
+  ],
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "http://127.0.0.1:8000/api"
+    },
+    {
+      "key": "accessToken",
+      "value": ""
+    },
+    {
+      "key": "refreshToken",
+      "value": ""
+    }
+  ]
+}

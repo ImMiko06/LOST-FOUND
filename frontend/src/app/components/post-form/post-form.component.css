@@ -1,0 +1,31 @@
+.form-shell {
+  max-width: 860px;
+  margin: 0 auto;
+}
+
+.form-heading p:last-child {
+  color: #475569;
+}
+
+.post-form {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 14px 18px;
+}
+
+.post-form label {
+  display: grid;
+  gap: 8px;
+}
+
+.post-form label:nth-child(2),
+.post-form .feedback,
+.post-form button {
+  grid-column: 1 / -1;
+}
+
+@media (max-width: 720px) {
+  .post-form {
+    grid-template-columns: 1fr;
+  }
+}

@@ -1,0 +1,81 @@
+<section class="panel form-shell">
+  <div class="form-heading">
+    <p class="eyebrow">Post Editor</p>
+    <h1>{{ pageTitle }}</h1>
+    <p>Publish a lost or found item with title, category, date, location, and contact details.</p>
+  </div>
+
+  @if (loading && itemId) {
+    <p class="feedback">Loading current post data...</p>
+  }
+
+  <form class="post-form" (ngSubmit)="save()">
+    <label>
+      Title
+      <input [(ngModel)]="payload.title" name="title" type="text" required />
+    </label>
+
+    <label>
+      Description
+      <textarea [(ngModel)]="payload.description" name="description" rows="4" required></textarea>
+    </label>
+
+    <label>
+      Type
+      <select [(ngModel)]="payload.item_type" name="item_type" required>
+        <option value="found">Found</option>
+        <option value="lost">Lost</option>
+      </select>
+    </label>
+
+    <label>
+      Category
+      <select [(ngModel)]="payload.category" name="category" required>
+        <option [ngValue]="null">Select category</option>
+        @for (category of categories; track category.id) {
+          <option [ngValue]="category.id">{{ category.name }}</option>
+        }
+      </select>
+    </label>
+
+    <label>
+      Location
+      <input [(ngModel)]="payload.location" name="location" type="text" required />
+    </label>
+
+    <label>
+      Date
+      <input [(ngModel)]="payload.event_date" name="event_date" type="date" required />
+    </label>
+
+    <label>
+      Upload photo from device
+      <input (change)="onFileSelected($event)" name="image" type="file" accept="image/*" />
+    </label>
+
+    @if (selectedFile) {
+      <p class="feedback">Selected file: {{ selectedFileLabel }}</p>
+    }
+
+    <label>
+      Contact info
+      <input [(ngModel)]="payload.contact_info" name="contact_info" type="text" required />
+    </label>
+
+    <label>
+      Status
+      <select [(ngModel)]="payload.status" name="status" required>
+        <option value="active">Active</option>
+        <option value="returned">Returned</option>
+      </select>
+    </label>
+
+    @if (errorMessage) {
+      <p class="feedback error">{{ errorMessage }}</p>
+    }
+
+    <button class="btn btn-primary" type="submit" [disabled]="loading">
+      {{ loading ? 'Preparing and uploading photo...' : 'Save Post' }}
+    </button>
+  </form>
+</section>

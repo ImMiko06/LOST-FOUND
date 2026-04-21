@@ -1,0 +1,36 @@
+<section class="auth-shell panel">
+  <div>
+    <p class="eyebrow">Create Account</p>
+    <h1>Join LOST&FOUND KBTU</h1>
+    <p class="subtext">Register once and keep all your lost and found posts in one dashboard.</p>
+  </div>
+
+  <form class="auth-form" (ngSubmit)="submit()">
+    <label>
+      Username
+      <input [(ngModel)]="username" name="username" type="text" required />
+    </label>
+
+    <label>
+      Password
+      <input [(ngModel)]="password" name="password" type="password" required minlength="6" />
+    </label>
+
+    @if (errorMessage) {
+      <p class="feedback error">{{ errorMessage }}</p>
+    }
+
+    @if (successMessage) {
+      <p class="feedback success">{{ successMessage }}</p>
+    }
+
+    <button class="btn btn-primary" type="submit" [disabled]="loading">
+      {{ loading ? 'Creating account...' : 'Register' }}
+    </button>
+  </form>
+
+  <p class="auth-switch">
+    Already registered?
+    <a routerLink="/login">Login</a>
+  </p>
+</section>

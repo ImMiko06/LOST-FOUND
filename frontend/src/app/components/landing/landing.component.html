@@ -1,0 +1,72 @@
+<section class="hero">
+  <div class="hero-copy">
+    <p class="eyebrow">LOST&FOUND KBTU</p>
+    <h1>One campus board for lost items, found items, and fast returns.</h1>
+    <p class="hero-text">
+      Students can publish what they found or lost, search by title, filter by category, and contact the right owner faster.
+    </p>
+    <div class="hero-actions">
+      <a routerLink="/browse" class="btn btn-primary">Browse Items</a>
+      <a routerLink="/posts/new" class="btn btn-secondary">I Found Something</a>
+    </div>
+  </div>
+
+  <div class="hero-card">
+    <div class="metric">
+      <span class="metric-value">24/7</span>
+      <span class="metric-label">accessible on phone and laptop</span>
+    </div>
+    <div class="metric">
+      <span class="metric-value">Lost</span>
+      <span class="metric-label">report missing belongings quickly</span>
+    </div>
+    <div class="metric">
+      <span class="metric-value">Found</span>
+      <span class="metric-label">publish items with location and contact info</span>
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="section-heading">
+    <p class="eyebrow">How It Works</p>
+    <h2>Simple flow for students</h2>
+  </div>
+
+  <div class="steps">
+    <article>
+      <h3>1. Log in</h3>
+      <p>Create an account and keep all your posts in one dashboard.</p>
+    </article>
+    <article>
+      <h3>2. Post or search</h3>
+      <p>Publish a lost or found item, or search the board by title and category.</p>
+    </article>
+    <article>
+      <h3>3. Return safely</h3>
+      <p>Send a claim request, confirm ownership, and mark the item as returned.</p>
+    </article>
+  </div>
+</section>
+
+<section class="section">
+  <div class="section-heading">
+    <p class="eyebrow">Recently Added</p>
+    <h2>Latest campus posts</h2>
+  </div>
+
+  @if (errorMessage) {
+    <p class="feedback error">{{ errorMessage }}</p>
+  } @else {
+    <div class="recent-grid">
+      @for (item of recentItems; track item.id) {
+        <article class="recent-card">
+          <span class="pill">{{ item.item_type }}</span>
+          <h3>{{ item.title }}</h3>
+          <p>{{ item.location }} • {{ item.category_name }}</p>
+          <a [routerLink]="['/posts', item.id]">View details</a>
+        </article>
+      }
+    </div>
+  }
+</section>
