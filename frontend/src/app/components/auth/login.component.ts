@@ -1,4 +1,5 @@
 import { CommonModule } from '@angular/common';
+import { HttpErrorResponse } from '@angular/common/http';
 import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
@@ -24,6 +25,7 @@ export class LoginComponent {
   ) {}
 
   submit(): void {
+    this.username = this.username.trim();
     this.loading = true;
     this.errorMessage = '';
 
@@ -32,8 +34,9 @@ export class LoginComponent {
         this.loading = false;
         void this.router.navigate(['/my-posts']);
       },
-      error: () => {
-        this.errorMessage = 'Login failed. Check your username and password.';
+      error: (error: HttpErrorResponse) => {
+        this.errorMessage =
+          error.error?.detail ?? 'Login failed. Check your username and password.';
         this.loading = false;
       }
     });

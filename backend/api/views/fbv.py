@@ -1,3 +1,4 @@
+from django.contrib.auth import authenticate
 from django.contrib.auth.models import User
 from django.db.models import Q
 from django.shortcuts import get_object_or_404
@@ -32,8 +33,15 @@ def login_view(request):
     serializer = LoginSerializer(data=request.data)
     serializer.is_valid(raise_exception=True)
 
-    user = get_object_or_404(User, username=serializer.validated_data['username'])
-    if not user.check_password(serializer.validated_data['password']):
+    username = serializer.validated_data['username'].strip()
+    password = serializer.validated_data['password']
+
+    matched_user = User.objects.filter(username__iexact=username).first()
+    if not matched_user:
+        return Response({'detail': 'Invalid username or password.'}, status=status.HTTP_400_BAD_REQUEST)
+
+    user = authenticate(username=matched_user.username, password=password)
+    if not user:
         return Response({'detail': 'Invalid username or password.'}, status=status.HTTP_400_BAD_REQUEST)
 
     refresh = RefreshToken.for_user(user)

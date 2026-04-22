@@ -2,135 +2,400 @@
   "info": {
     "_postman_id": "5b5840f8-ef18-4f79-8da9-09a313d7e944",
     "name": "LOST&FOUND KBTU API",
+    "description": "Postman collection for LOST&FOUND KBTU project. Import the collection, set variables, then run register/login and the protected item requests.",
     "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
   },
   "item": [
     {
-      "name": "Register",
-      "request": {
-        "method": "POST",
-        "header": [{ "key": "Content-Type", "value": "application/json" }],
-        "body": {
-          "mode": "raw",
-          "raw": "{\n  \"username\": \"student1\",\n  \"password\": \"12345678\"\n}"
+      "name": "Auth",
+      "item": [
+        {
+          "name": "Register",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"username\": \"student_postman\",\n  \"password\": \"12345678\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/register/",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "register",
+                ""
+              ]
+            }
+          }
         },
-        "url": {
-          "raw": "{{baseUrl}}/register/",
-          "host": ["{{baseUrl}}"],
-          "path": ["register", ""]
-        }
-      }
-    },
-    {
-      "name": "Login",
-      "request": {
-        "method": "POST",
-        "header": [{ "key": "Content-Type", "value": "application/json" }],
-        "body": {
-          "mode": "raw",
-          "raw": "{\n  \"username\": \"student1\",\n  \"password\": \"12345678\"\n}"
+        {
+          "name": "Login",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "const data = pm.response.json();",
+                  "if (data.access) { pm.collectionVariables.set('accessToken', data.access); }",
+                  "if (data.refresh) { pm.collectionVariables.set('refreshToken', data.refresh); }",
+                  "if (data.user && data.user.id) { pm.collectionVariables.set('userId', String(data.user.id)); }"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"username\": \"student789\",\n  \"password\": \"12345678\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/login/",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "login",
+                ""
+              ]
+            }
+          }
         },
-        "url": {
-          "raw": "{{baseUrl}}/login/",
-          "host": ["{{baseUrl}}"],
-          "path": ["login", ""]
+        {
+          "name": "Logout",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{accessToken}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"refresh\": \"{{refreshToken}}\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/logout/",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "logout",
+                ""
+              ]
+            }
+          }
         }
-      }
+      ]
     },
     {
-      "name": "Get Categories",
-      "request": {
-        "method": "GET",
-        "url": {
-          "raw": "{{baseUrl}}/categories/",
-          "host": ["{{baseUrl}}"],
-          "path": ["categories", ""]
+      "name": "Categories",
+      "item": [
+        {
+          "name": "Get Categories",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{baseUrl}}/categories/",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "categories",
+                ""
+              ]
+            }
+          }
         }
-      }
+      ]
     },
     {
-      "name": "Create Item",
-      "request": {
-        "method": "POST",
-        "header": [
-          { "key": "Content-Type", "value": "application/json" },
-          { "key": "Authorization", "value": "Bearer {{accessToken}}" }
-        ],
-        "body": {
-          "mode": "raw",
-          "raw": "{\n  \"title\": \"Blue student ID\",\n  \"description\": \"Found near the main library entrance.\",\n  \"item_type\": \"found\",\n  \"location\": \"Main Library\",\n  \"event_date\": \"2026-04-21\",\n  \"image_url\": \"https://images.unsplash.com/photo-1516321318423-f06f85e504b3\",\n  \"contact_info\": \"Telegram: @student1\",\n  \"status\": \"active\",\n  \"category\": 4\n}"
+      "name": "Items",
+      "item": [
+        {
+          "name": "Get All Items",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{baseUrl}}/items/",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "items",
+                ""
+              ]
+            }
+          }
         },
-        "url": {
-          "raw": "{{baseUrl}}/items/",
-          "host": ["{{baseUrl}}"],
-          "path": ["items", ""]
-        }
-      }
-    },
-    {
-      "name": "Browse Items",
-      "request": {
-        "method": "GET",
-        "url": {
-          "raw": "{{baseUrl}}/items/search/?q=id&category=4",
-          "host": ["{{baseUrl}}"],
-          "path": ["items", "search", ""],
-          "query": [
-            { "key": "q", "value": "id" },
-            { "key": "category", "value": "4" }
-          ]
-        }
-      }
-    },
-    {
-      "name": "My Items",
-      "request": {
-        "method": "GET",
-        "header": [{ "key": "Authorization", "value": "Bearer {{accessToken}}" }],
-        "url": {
-          "raw": "{{baseUrl}}/my-items/",
-          "host": ["{{baseUrl}}"],
-          "path": ["my-items", ""]
-        }
-      }
-    },
-    {
-      "name": "Create Claim",
-      "request": {
-        "method": "POST",
-        "header": [
-          { "key": "Content-Type", "value": "application/json" },
-          { "key": "Authorization", "value": "Bearer {{accessToken}}" }
-        ],
-        "body": {
-          "mode": "raw",
-          "raw": "{\n  \"item\": 1,\n  \"message\": \"It has a small KBTU sticker on the back.\",\n  \"contact_info\": \"WhatsApp: +7 700 000 0000\"\n}"
+        {
+          "name": "Search Items",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{baseUrl}}/items/search/?q=airpods&category=3&item_type=found",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "items",
+                "search",
+                ""
+              ],
+              "query": [
+                {
+                  "key": "q",
+                  "value": "airpods"
+                },
+                {
+                  "key": "category",
+                  "value": "3"
+                },
+                {
+                  "key": "item_type",
+                  "value": "found"
+                }
+              ]
+            }
+          }
         },
-        "url": {
-          "raw": "{{baseUrl}}/claims/",
-          "host": ["{{baseUrl}}"],
-          "path": ["claims", ""]
+        {
+          "name": "Create Item",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{accessToken}}"
+              }
+            ],
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                {
+                  "key": "title",
+                  "value": "Black wallet",
+                  "type": "text"
+                },
+                {
+                  "key": "description",
+                  "value": "Found near the KBTU cafeteria.",
+                  "type": "text"
+                },
+                {
+                  "key": "item_type",
+                  "value": "found",
+                  "type": "text"
+                },
+                {
+                  "key": "location",
+                  "value": "KBTU cafeteria",
+                  "type": "text"
+                },
+                {
+                  "key": "event_date",
+                  "value": "2026-04-22",
+                  "type": "text"
+                },
+                {
+                  "key": "contact_info",
+                  "value": "Telegram: @student789",
+                  "type": "text"
+                },
+                {
+                  "key": "status",
+                  "value": "active",
+                  "type": "text"
+                },
+                {
+                  "key": "category",
+                  "value": "3",
+                  "type": "text"
+                }
+              ]
+            },
+            "url": {
+              "raw": "{{baseUrl}}/items/",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "items",
+                ""
+              ]
+            }
+          }
+        },
+        {
+          "name": "Get Item Detail",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{baseUrl}}/items/{{itemId}}/",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "items",
+                "{{itemId}}",
+                ""
+              ]
+            }
+          }
+        },
+        {
+          "name": "Update Item",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{accessToken}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"title\": \"Black wallet updated\",\n  \"description\": \"Found near the KBTU cafeteria. Updated from Postman.\",\n  \"item_type\": \"found\",\n  \"location\": \"KBTU cafeteria\",\n  \"event_date\": \"2026-04-22\",\n  \"image_url\": \"\",\n  \"contact_info\": \"Telegram: @student789\",\n  \"status\": \"active\",\n  \"category\": 3\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/items/{{itemId}}/",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "items",
+                "{{itemId}}",
+                ""
+              ]
+            }
+          }
+        },
+        {
+          "name": "Delete Item",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{accessToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/items/{{itemId}}/",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "items",
+                "{{itemId}}",
+                ""
+              ]
+            }
+          }
+        },
+        {
+          "name": "Get My Items",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{accessToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/my-items/",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "my-items",
+                ""
+              ]
+            }
+          }
         }
-      }
+      ]
     },
     {
-      "name": "Logout",
-      "request": {
-        "method": "POST",
-        "header": [
-          { "key": "Content-Type", "value": "application/json" },
-          { "key": "Authorization", "value": "Bearer {{accessToken}}" }
-        ],
-        "body": {
-          "mode": "raw",
-          "raw": "{\n  \"refresh\": \"{{refreshToken}}\"\n}"
+      "name": "Claims",
+      "item": [
+        {
+          "name": "Get Claims",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{accessToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/claims/",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "claims",
+                ""
+              ]
+            }
+          }
         },
-        "url": {
-          "raw": "{{baseUrl}}/logout/",
-          "host": ["{{baseUrl}}"],
-          "path": ["logout", ""]
+        {
+          "name": "Create Claim",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{accessToken}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"item\": {{itemId}},\n  \"message\": \"This item belongs to me. I can describe the inside details.\",\n  \"contact_info\": \"WhatsApp: +7 700 000 0000\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/claims/",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "claims",
+                ""
+              ]
+            }
+          }
         }
-      }
+      ]
     }
   ],
   "variable": [
@@ -144,6 +409,14 @@
     },
     {
       "key": "refreshToken",
+      "value": ""
+    },
+    {
+      "key": "itemId",
+      "value": "12"
+    },
+    {
+      "key": "userId",
       "value": ""
     }
   ]
